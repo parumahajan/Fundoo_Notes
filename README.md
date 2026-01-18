@@ -62,7 +62,6 @@ It supports all core functionalities of Google Keep, including authentication, l
 * TypeScript
 * HTML5
 * CSS3
-* Bootstrap / Material UI
 
 ### Backend
 
@@ -72,7 +71,7 @@ It supports all core functionalities of Google Keep, including authentication, l
 
 ### Database
 
-* SQL Server
+* Microsoft SQL Server
 
 ### Authentication
 
@@ -82,7 +81,7 @@ It supports all core functionalities of Google Keep, including authentication, l
 
 * Git & GitHub
 * Visual Studio Code / Visual Studio
-* Postman
+* Swagger
 
 ---
 
@@ -164,5 +163,3 @@ http://localhost:4200
 * Dark mode
 * Advanced search filters
 * Mobile application
-
-⭐ If you like this project, don’t forget to **star** the repository!
