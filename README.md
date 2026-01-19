@@ -123,8 +123,8 @@ FundooNotes/
 ### Backend Setup
 
 ```bash
-cd Backend
-dotnet restore
+cd .\Backend\
+cd .\FundooNotes\
 dotnet build
 dotnet run
 ```
@@ -132,8 +132,8 @@ dotnet run
 ### Frontend Setup
 
 ```bash
-cd Frontend
-npm install
+cd .\Frontend\
+npm install (Just once)
 ng serve
 ```
 
