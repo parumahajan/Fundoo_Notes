@@ -42,7 +42,8 @@ export class MainContentComponent implements OnInit, OnChanges {
     this.isLoading.set(true);
     this.noteService.notes$.subscribe(notes => {
       // Store all active notes
-      this.allNotes.set(notes.filter(n => !n.isDeleted && !n.isArchived));
+      const activeNotes = notes.filter(n => !n.isDeleted && !n.isArchived);
+      this.allNotes.set(activeNotes);
       this.filterNotes();
       this.isLoading.set(false);
     });
