@@ -253,6 +253,51 @@ namespace BusinessLayer.Services
             await _noteRepository.SaveAsync();
         }
 
+        public async Task<NoteResponseDto> AddLabelToNoteAsync(int noteId, int labelId, int userId)
+        {
+            var note = await _noteRepository.GetByIdAsync(noteId)
+                ?? throw new NotFoundException("Note not found");
+
+            // Check if user owns the note or is a collaborator
+            if (note.UserId != userId && !await _collaboratorRepository.ExistsAsync(noteId, userId))
+                throw new UnauthorizedException("Access denied to this note");
+
+            // Check if label already exists on note
+            if (note.NoteLabels.Any(nl => nl.LabelId == labelId))
+                throw new ValidationException("Label already attached to this note");
+
+            var noteLabel = new DataBaseLayer.Entities.NoteLabel
+            {
+                NoteId = noteId,
+                LabelId = labelId
+            };
+
+            note.NoteLabels.Add(noteLabel);
+            note.UpdatedAt = DateTime.UtcNow;
+
+            await _noteRepository.SaveAsync();
+
+            return MapToDto(note);
+        }
+
+        public async Task RemoveLabelFromNoteAsync(int noteId, int labelId, int userId)
+        {
+            var note = await _noteRepository.GetByIdAsync(noteId)
+                ?? throw new NotFoundException("Note not found");
+
+            // Check if user owns the note or is a collaborator
+            if (note.UserId != userId && !await _collaboratorRepository.ExistsAsync(noteId, userId))
+                throw new UnauthorizedException("Access denied to this note");
+
+            var noteLabel = note.NoteLabels.FirstOrDefault(nl => nl.LabelId == labelId);
+            if (noteLabel != null)
+            {
+                note.NoteLabels.Remove(noteLabel);
+                note.UpdatedAt = DateTime.UtcNow;
+                await _noteRepository.SaveAsync();
+            }
+        }
+
         private static NoteResponseDto MapToDto(Note note)
         {
             return new NoteResponseDto
@@ -265,7 +310,12 @@ namespace BusinessLayer.Services
                 IsArchived = note.IsArchived,
                 IsDeleted = note.IsDeleted,
                 CreatedAt = note.CreatedAt,
-                UpdatedAt = note.UpdatedAt
+                UpdatedAt = note.UpdatedAt,
+                Labels = note.NoteLabels?.Select(nl => new ModelLayer.DTOs.Notes.LabelDto
+                {
+                    Id = nl.Label.Id,
+                    Name = nl.Label.Name
+                }).ToList()
             };
         }
     }

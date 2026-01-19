@@ -235,6 +235,32 @@ namespace FundooNotes.Controllers
             return Ok(ApiResponse.SuccessResponse("Notes deleted successfully"));
         }
 
+
+        /// Add label to note
+        [HttpPost("{noteId}/labels/{labelId}")]
+        [ProducesResponseType(typeof(ApiResponse<NoteResponseDto>), StatusCodes.Status200OK)]
+        public async Task<IActionResult> AddLabel(int noteId, int labelId)
+        {
+            var userId = GetUserId();
+            _logger.LogInformation("Adding label {LabelId} to note {NoteId}", labelId, noteId);
+
+            var note = await _noteService.AddLabelToNoteAsync(noteId, labelId, userId);
+            return Ok(ApiResponse<NoteResponseDto>.SuccessResponse(note, "Label added to note successfully"));
+        }
+
+
+        /// Remove label from note
+        [HttpDelete("{noteId}/labels/{labelId}")]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status200OK)]
+        public async Task<IActionResult> RemoveLabel(int noteId, int labelId)
+        {
+            var userId = GetUserId();
+            _logger.LogInformation("Removing label {LabelId} from note {NoteId}", labelId, noteId);
+
+            await _noteService.RemoveLabelFromNoteAsync(noteId, labelId, userId);
+            return Ok(ApiResponse.SuccessResponse("Label removed from note successfully"));
+        }
+
         private int GetUserId()
         {
             var userIdClaim = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
