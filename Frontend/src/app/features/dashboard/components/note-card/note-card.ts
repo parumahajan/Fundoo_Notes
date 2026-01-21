@@ -124,12 +124,15 @@ export class NoteCardComponent implements OnInit {
 
   updateColor(color: string, event: Event): void {
     event.stopPropagation();
+    this.showColorPicker.set(false);
     this.noteService.updateColor(this.note.id, { color }).subscribe({
       next: () => {
-        this.showColorPicker.set(false);
         this.noteUpdated.emit();
       },
-      error: (err) => console.error('Failed to update color:', err)
+      error: (err) => {
+        console.error('Failed to update color:', err);
+        this.noteUpdated.emit();
+      }
     });
   }
 

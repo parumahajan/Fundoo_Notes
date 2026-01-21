@@ -8,7 +8,21 @@ namespace BusinessLayer.Rules
     {
         private static readonly string[] ValidColors = new[]
         {
-            "#FFFFFF", // White (Default)
+            // Frontend palette (Google Keep style)
+            "#FFFFFF", // Default
+            "#FAAFA8", // Coral
+            "#F39F76", // Peach
+            "#FFF8B8", // Sand
+            "#E2F6D3", // Mint
+            "#B4DDD3", // Sage
+            "#D4E4ED", // Fog
+            "#AECCDC", // Storm
+            "#D3BFDB", // Dusk
+            "#F6E2DD", // Blossom
+            "#E9E3D4", // Clay
+            "#EFEFF1", // Chalk
+
+            // Backward compatibility (legacy palette)
             "#F28B82", // Red
             "#FBBC04", // Orange
             "#FFF475", // Yellow
