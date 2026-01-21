@@ -35,6 +35,11 @@ $color-hover: #f1f3f4;
   min-height: 60px;
   overflow: visible;
 
+  // When any menu is open, raise the z-index so dropdowns appear above other notes
+  &.menu-open {
+    z-index: 100;
+  }
+
   &:hover {
     box-shadow: var(--shadow-sm);
 
@@ -434,6 +439,25 @@ $color-hover: #f1f3f4;
   line-height: 1.5;
 }
 
+.label-picker-search {
+  padding: 8px 16px;
+  border-bottom: 1px solid $color-border;
+
+  input {
+    width: 100%;
+    border: none;
+    outline: none;
+    font-size: 13px;
+    padding: 6px 0;
+    background: transparent;
+    color: $color-text;
+
+    &::placeholder {
+      color: $color-text-secondary;
+    }
+  }
+}
+
 .label-picker-list {
   max-height: 240px;
   overflow-y: auto;
@@ -455,6 +479,23 @@ $color-hover: #f1f3f4;
     &:hover {
       background-color: rgba(0, 0, 0, 0.3);
     }
+  }
+}
+
+.label-picker-create {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  padding: 10px 16px;
+  cursor: pointer;
+  color: $color-text;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+
+  &:hover {
+    background-color: $color-hover;
   }
 }
 
@@ -495,7 +536,7 @@ $color-hover: #f1f3f4;
     }
   }
 
-  label {
+  span {
     cursor: pointer;
     flex: 1;
     white-space: nowrap;

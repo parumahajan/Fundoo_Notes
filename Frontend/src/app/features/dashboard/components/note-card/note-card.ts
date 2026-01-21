@@ -1,5 +1,6 @@
-import { Component, Input, Output, EventEmitter, signal, inject, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, signal, inject, OnInit, ElementRef, HostListener, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { NoteService } from '../../../../core/services/note.service';
 import { LabelService } from '../../../../core/services/label.service';
 import { Note, LabelDto } from '../../../../core/models/note.model';
@@ -24,13 +25,15 @@ export const NOTE_COLORS = [
 @Component({
   selector: 'app-note-card',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './note-card.html',
   styleUrls: ['./note-card.scss']
 })
 export class NoteCardComponent implements OnInit {
   private noteService = inject(NoteService);
   private labelService = inject(LabelService);
+  private elementRef = inject(ElementRef);
+  private cdr = inject(ChangeDetectorRef);
 
   @Input() note!: Note;
   @Input() isTrash = false;
@@ -42,12 +45,20 @@ export class NoteCardComponent implements OnInit {
   showMoreMenu = signal(false);
   showLabelPicker = signal(false);
   allLabels = signal<Label[]>([]);
+  labelQuery = signal('');
   colors = NOTE_COLORS;
 
   ngOnInit(): void {
     this.labelService.labels$.subscribe(labels => {
       this.allLabels.set(labels);
     });
+  }
+
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent): void {
+    if (!this.elementRef.nativeElement.contains(event.target)) {
+      this.closeMenus();
+    }
   }
 
   onCardClick(): void {
@@ -155,6 +166,9 @@ export class NoteCardComponent implements OnInit {
     this.showLabelPicker.update(v => !v);
     this.showColorPicker.set(false);
     this.showMoreMenu.set(false);
+    if (!this.showLabelPicker()) {
+      this.labelQuery.set('');
+    }
   }
 
   isLabelAttached(labelId: number): boolean {
@@ -165,12 +179,20 @@ export class NoteCardComponent implements OnInit {
     event.stopPropagation();
     if (this.isLabelAttached(label.id)) {
       this.noteService.removeLabelFromNote(this.note.id, label.id).subscribe({
-        next: () => this.noteUpdated.emit(),
+        next: () => {
+          this.note.labels = (this.note.labels || []).filter(l => l.id !== label.id);
+          this.cdr.detectChanges();
+          this.noteUpdated.emit();
+        },
         error: (err) => console.error('Failed to remove label:', err)
       });
     } else {
       this.noteService.addLabelToNote(this.note.id, label.id).subscribe({
-        next: () => this.noteUpdated.emit(),
+        next: () => {
+          this.note.labels = [...(this.note.labels || []), { id: label.id, name: label.name }];
+          this.cdr.detectChanges();
+          this.noteUpdated.emit();
+        },
         error: (err) => console.error('Failed to add label:', err)
       });
     }
@@ -179,8 +201,50 @@ export class NoteCardComponent implements OnInit {
   removeLabel(label: LabelDto, event: Event): void {
     event.stopPropagation();
     this.noteService.removeLabelFromNote(this.note.id, label.id).subscribe({
-      next: () => this.noteUpdated.emit(),
+      next: () => {
+        this.note.labels = (this.note.labels || []).filter(l => l.id !== label.id);
+        this.cdr.detectChanges();
+        this.noteUpdated.emit();
+      },
       error: (err) => console.error('Failed to remove label:', err)
+    });
+  }
+
+  onLabelQueryChange(value: string): void {
+    this.labelQuery.set(value ?? '');
+  }
+
+  getFilteredLabels(): Label[] {
+    const query = this.labelQuery().trim().toLowerCase();
+    if (!query) return this.allLabels();
+    return this.allLabels().filter(l => l.name.toLowerCase().includes(query));
+  }
+
+  canCreateLabel(): boolean {
+    const name = this.labelQuery().trim();
+    if (!name) return false;
+    return !this.allLabels().some(l => l.name.toLowerCase() === name.toLowerCase());
+  }
+
+  createLabelFromQuery(event: Event): void {
+    event.stopPropagation();
+    const name = this.labelQuery().trim();
+    if (!name) return;
+
+    this.labelService.createLabel({ name }).subscribe({
+      next: (label) => {
+        this.allLabels.set([...this.allLabels(), label]);
+        this.labelQuery.set('');
+        this.noteService.addLabelToNote(this.note.id, label.id).subscribe({
+          next: () => {
+            this.note.labels = [...(this.note.labels || []), { id: label.id, name: label.name }];
+            this.cdr.detectChanges();
+            this.noteUpdated.emit();
+          },
+          error: (err) => console.error('Failed to add label:', err)
+        });
+      },
+      error: (err) => console.error('Failed to create label:', err)
     });
   }
 
@@ -220,5 +284,6 @@ export class NoteCardComponent implements OnInit {
     this.showColorPicker.set(false);
     this.showMoreMenu.set(false);
     this.showLabelPicker.set(false);
+    this.labelQuery.set('');
   }
 }

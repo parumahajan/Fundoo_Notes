@@ -91,9 +91,14 @@ export class SidebarComponent implements OnInit {
   }
 
   deleteLabel(label: Label): void {
-    this.labelService.deleteLabel(label.id).subscribe({
-      error: (err) => console.error('Failed to delete label:', err)
-    });
+    if (confirm(`Delete label "${label.name}"? This will remove the label from all notes.`)) {
+      this.labelService.deleteLabel(label.id).subscribe({
+        next: () => {
+          console.log('Label deleted successfully');
+        },
+        error: (err) => console.error('Failed to delete label:', err)
+      });
+    }
   }
 
   onNewLabelKeydown(event: KeyboardEvent): void {

@@ -1,7 +1,7 @@
 <div class="note-card"
      [style.background-color]="note.color"
-     (click)="onCardClick()"
-     (mouseleave)="closeMenus()">
+     [class.menu-open]="showColorPicker() || showMoreMenu() || showLabelPicker()"
+  (click)="onCardClick()">
 
   <!-- Pin Button (Top Right) - Only show if not in trash -->
   <button class="pin-btn"
@@ -156,14 +156,25 @@
         </div>
 
         <!-- Label Picker Dropdown -->
-        <div class="label-picker" *ngIf="showLabelPicker()">
+        <div class="label-picker" *ngIf="showLabelPicker()" (click)="$event.stopPropagation()">
           <div class="label-picker-header">Label note</div>
+          <div class="label-picker-search">
+            <input
+              type="text"
+              placeholder="Enter label name"
+              [ngModel]="labelQuery()"
+              [ngModelOptions]="{ standalone: true }"
+              (ngModelChange)="onLabelQueryChange($event)">
+          </div>
           <div class="label-picker-list">
-            <div class="label-picker-item" *ngFor="let label of allLabels()" (click)="toggleLabel(label, $event)">
-              <input type="checkbox" [checked]="isLabelAttached(label.id)" (click)="$event.stopPropagation()">
+            <button class="label-picker-create" *ngIf="canCreateLabel()" (click)="createLabelFromQuery($event)">
+              <span>+ Create "{{ labelQuery() }}"</span>
+            </button>
+            <label class="label-picker-item" *ngFor="let label of getFilteredLabels()">
+              <input type="checkbox" [checked]="isLabelAttached(label.id)" (change)="toggleLabel(label, $event)">
               <span>{{ label.name }}</span>
-            </div>
-            <div class="label-picker-empty" *ngIf="allLabels().length === 0">
+            </label>
+            <div class="label-picker-empty" *ngIf="getFilteredLabels().length === 0 && !labelQuery()">
               No labels yet
             </div>
           </div>

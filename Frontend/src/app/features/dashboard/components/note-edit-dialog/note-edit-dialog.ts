@@ -2,7 +2,9 @@ import { Component, Input, Output, EventEmitter, signal, inject, OnInit } from '
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NoteService } from '../../../../core/services/note.service';
-import { Note } from '../../../../core/models/note.model';
+import { LabelService } from '../../../../core/services/label.service';
+import { Note, LabelDto } from '../../../../core/models/note.model';
+import { Label } from '../../../../core/models/label.model';
 import { NOTE_COLORS } from '../note-card/note-card';
 
 @Component({
@@ -14,6 +16,7 @@ import { NOTE_COLORS } from '../note-card/note-card';
 })
 export class NoteEditDialogComponent implements OnInit {
   private noteService = inject(NoteService);
+  private labelService = inject(LabelService);
 
   @Input() note!: Note;
   @Output() close = new EventEmitter<void>();
@@ -25,6 +28,8 @@ export class NoteEditDialogComponent implements OnInit {
   showMoreMenu = signal(false);
   showLabelPicker = signal(false);
   isSaving = signal(false);
+  allLabels = signal<Label[]>([]);
+  labelQuery = signal('');
 
   colors = NOTE_COLORS;
 
@@ -34,6 +39,11 @@ export class NoteEditDialogComponent implements OnInit {
       this.editContent = this.note.content || '';
       this.selectedColor.set(this.note.color || '#ffffff');
     }
+
+    this.labelService.labels$.subscribe(labels => {
+      this.allLabels.set(labels);
+    });
+    this.labelService.refreshLabels();
   }
 
   saveAndClose(): void {
@@ -113,12 +123,88 @@ export class NoteEditDialogComponent implements OnInit {
     this.showLabelPicker.update(v => !v);
     this.showColorPicker.set(false);
     this.showMoreMenu.set(false);
+    if (!this.showLabelPicker()) {
+      this.labelQuery.set('');
+    }
   }
 
   closeMenus(): void {
     this.showColorPicker.set(false);
     this.showMoreMenu.set(false);
     this.showLabelPicker.set(false);
+    this.labelQuery.set('');
+  }
+
+  isLabelAttached(labelId: number): boolean {
+    return this.note.labels?.some(l => l.id === labelId) ?? false;
+  }
+
+  toggleLabel(label: Label, event: Event): void {
+    event.stopPropagation();
+    if (this.isLabelAttached(label.id)) {
+      this.noteService.removeLabelFromNote(this.note.id, label.id).subscribe({
+        next: () => this.syncLabelState(label, false),
+        error: (err) => console.error('Failed to remove label:', err)
+      });
+    } else {
+      this.noteService.addLabelToNote(this.note.id, label.id).subscribe({
+        next: () => this.syncLabelState(label, true),
+        error: (err) => console.error('Failed to add label:', err)
+      });
+    }
+  }
+
+  removeLabel(label: LabelDto, event: Event): void {
+    event.stopPropagation();
+    this.noteService.removeLabelFromNote(this.note.id, label.id).subscribe({
+      next: () => {
+        this.note.labels = (this.note.labels || []).filter(l => l.id !== label.id);
+      },
+      error: (err) => console.error('Failed to remove label:', err)
+    });
+  }
+
+  onLabelQueryChange(value: string): void {
+    this.labelQuery.set(value ?? '');
+  }
+
+  getFilteredLabels(): Label[] {
+    const query = this.labelQuery().trim().toLowerCase();
+    if (!query) return this.allLabels();
+    return this.allLabels().filter(l => l.name.toLowerCase().includes(query));
+  }
+
+  canCreateLabel(): boolean {
+    const name = this.labelQuery().trim();
+    if (!name) return false;
+    return !this.allLabels().some(l => l.name.toLowerCase() === name.toLowerCase());
+  }
+
+  createLabelFromQuery(event: Event): void {
+    event.stopPropagation();
+    const name = this.labelQuery().trim();
+    if (!name) return;
+
+    this.labelService.createLabel({ name }).subscribe({
+      next: (label) => {
+        this.allLabels.set([...this.allLabels(), label]);
+        this.labelQuery.set('');
+        this.noteService.addLabelToNote(this.note.id, label.id).subscribe({
+          next: () => this.syncLabelState(label, true),
+          error: (err) => console.error('Failed to add label:', err)
+        });
+      },
+      error: (err) => console.error('Failed to create label:', err)
+    });
+  }
+
+  private syncLabelState(label: Label, isAdded: boolean): void {
+    const current = this.note.labels || [];
+    if (isAdded) {
+      this.note.labels = [...current, { id: label.id, name: label.name }];
+    } else {
+      this.note.labels = current.filter(l => l.id !== label.id);
+    }
   }
 
   copyNote(event: Event): void {

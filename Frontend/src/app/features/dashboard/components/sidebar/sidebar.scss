@@ -356,13 +356,23 @@ $z-index-overlay: 1000;
 
 .delete-btn {
   opacity: 0;
+  cursor: pointer;
 
   .label-row:hover & {
     opacity: 1;
   }
 
+  // Always visible in edit mode
+  .label-row:has(.label-edit-input) & {
+    opacity: 1;
+  }
+
   svg {
     fill: $color-text-secondary;
+  }
+
+  &:hover svg {
+    fill: #d93025;
   }
 }
 
