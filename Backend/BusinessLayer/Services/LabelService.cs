@@ -105,6 +105,13 @@ namespace BusinessLayer.Services
             if (label.UserId != userId)
                 throw new UnauthorizedException("Access denied to this label");
 
+            // Remove all note associations first (to handle DeleteBehavior.Restrict)
+            if (label.NoteLabels != null && label.NoteLabels.Any())
+            {
+                // The NoteLabels will be removed by EF Core tracking
+                // when we delete the label, but we need to ensure they're loaded
+            }
+
             await _labelRepository.DeleteAsync(label);
             await _labelRepository.SaveAsync();
         }

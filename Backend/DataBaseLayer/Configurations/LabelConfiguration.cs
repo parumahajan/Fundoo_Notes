@@ -27,7 +27,7 @@ namespace DataBaseLayer.Configurations
             builder.HasMany(l => l.NoteLabels)
                 .WithOne(nl => nl.Label)
                 .HasForeignKey(nl => nl.LabelId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

@@ -50,6 +50,11 @@ namespace DataBaseLayer.Repositories
 
         public Task DeleteAsync(Label label)
         {
+            // Remove all note associations first to handle FK constraint
+            if (label.NoteLabels != null && label.NoteLabels.Any())
+            {
+                _context.NoteLabels.RemoveRange(label.NoteLabels);
+            }
             _context.Labels.Remove(label);
             return Task.CompletedTask;
         }
