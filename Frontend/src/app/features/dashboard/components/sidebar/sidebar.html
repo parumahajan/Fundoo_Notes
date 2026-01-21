@@ -163,3 +163,16 @@
     </div>
   </div>
 </div>
+
+<!-- Delete Confirmation Dialog -->
+<div class="delete-confirm-overlay" *ngIf="showDeleteConfirmDialog()" (click)="closeDeleteConfirmDialog()">
+  <div class="delete-confirm-dialog" (click)="$event.stopPropagation()">
+    <div class="delete-confirm-content">
+      <p class="delete-confirm-message">We'll delete this label and remove it from all of your Keep notes. Your notes won't be deleted.</p>
+    </div>
+    <div class="delete-confirm-actions">
+      <button class="cancel-delete-btn" (click)="closeDeleteConfirmDialog()">Cancel</button>
+      <button class="confirm-delete-btn" (click)="confirmDeleteLabel()">Delete</button>
+    </div>
+  </div>
+</div>

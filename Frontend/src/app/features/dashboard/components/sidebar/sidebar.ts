@@ -20,6 +20,8 @@ export class SidebarComponent implements OnInit {
 
   labels = signal<Label[]>([]);
   showEditLabelsDialog = signal(false);
+  showDeleteConfirmDialog = signal(false);
+  labelToDelete: Label | null = null;
   newLabelName = '';
   editingLabelId = signal<number | null>(null);
   editingLabelName = '';
@@ -91,14 +93,28 @@ export class SidebarComponent implements OnInit {
   }
 
   deleteLabel(label: Label): void {
-    if (confirm(`Delete label "${label.name}"? This will remove the label from all notes.`)) {
-      this.labelService.deleteLabel(label.id).subscribe({
+    this.labelToDelete = label;
+    this.showDeleteConfirmDialog.set(true);
+  }
+
+  confirmDeleteLabel(): void {
+    if (this.labelToDelete) {
+      this.labelService.deleteLabel(this.labelToDelete.id).subscribe({
         next: () => {
           console.log('Label deleted successfully');
+          this.closeDeleteConfirmDialog();
         },
-        error: (err) => console.error('Failed to delete label:', err)
+        error: (err) => {
+          console.error('Failed to delete label:', err);
+          this.closeDeleteConfirmDialog();
+        }
       });
     }
+  }
+
+  closeDeleteConfirmDialog(): void {
+    this.showDeleteConfirmDialog.set(false);
+    this.labelToDelete = null;
   }
 
   onNewLabelKeydown(event: KeyboardEvent): void {

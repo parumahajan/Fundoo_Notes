@@ -424,6 +424,101 @@ $z-index-overlay: 1000;
   }
 }
 
+// ================= DELETE CONFIRMATION DIALOG =================
+.delete-confirm-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  animation: fadeIn 0.2s ease-out;
+}
+
+.delete-confirm-dialog {
+  background: $color-bg;
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  max-width: 360px;
+  width: 90%;
+  animation: slideUp 0.2s ease-out;
+  overflow: hidden;
+}
+
+.delete-confirm-content {
+  padding: 24px 24px 20px;
+}
+
+.delete-confirm-message {
+  font-size: 14px;
+  line-height: 20px;
+  color: $color-text;
+  margin: 0;
+  font-family: 'Roboto', Arial, sans-serif;
+}
+
+.delete-confirm-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 8px 16px 16px;
+}
+
+.cancel-delete-btn,
+.confirm-delete-btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  font-family: 'Roboto', Arial, sans-serif;
+  transition: background-color $transition-fast;
+  min-width: 64px;
+  text-align: center;
+}
+
+.cancel-delete-btn {
+  background: transparent;
+  color: $color-focus;
+
+  &:hover {
+    background-color: rgba(26, 115, 232, 0.08);
+  }
+
+  &:active {
+    background-color: rgba(26, 115, 232, 0.16);
+  }
+}
+
+.confirm-delete-btn {
+  background: transparent;
+  color: $color-focus;
+
+  &:hover {
+    background-color: rgba(26, 115, 232, 0.08);
+  }
+
+  &:active {
+    background-color: rgba(26, 115, 232, 0.16);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
 // ================= ACCESSIBILITY =================
 @media (prefers-reduced-motion: reduce) {
   * {
