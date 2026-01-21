@@ -11,11 +11,6 @@
 
     <main class="archive-content" [class.sidebar-expanded]="sidebarExpanded()">
       <div class="content-wrapper">
-        <!-- Search Results Header -->
-        <div class="search-header" *ngIf="searchQuery()">
-          <span class="search-results-text">Search results for "{{ searchQuery() }}"</span>
-        </div>
-
         <!-- Loading State -->
         <div class="loading-state" *ngIf="isLoading()">
           <div class="spinner"></div>

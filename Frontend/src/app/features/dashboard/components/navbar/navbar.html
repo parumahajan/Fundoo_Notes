@@ -51,8 +51,10 @@
           placeholder="Search"
           aria-label="Search"
           autocomplete="off"
-          [(ngModel)]="searchQuery"
-          (input)="onSearchInput()"
+          name="search"
+          [ngModelOptions]="{ standalone: true }"
+          [ngModel]="searchQuery()"
+          (ngModelChange)="onSearchInput($event)"
           (focus)="onSearchFocus()"
           (blur)="onSearchBlur()">
 

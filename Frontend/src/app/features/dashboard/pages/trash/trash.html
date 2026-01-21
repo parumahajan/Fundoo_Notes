@@ -17,11 +17,6 @@
           <button class="empty-trash-btn" (click)="emptyTrash()">Empty Trash</button>
         </div>
 
-        <!-- Search Results Header -->
-        <div class="search-header" *ngIf="searchQuery()">
-          <span class="search-results-text">Search results for "{{ searchQuery() }}"</span>
-        </div>
-
         <!-- Loading State -->
         <div class="loading-state" *ngIf="isLoading()">
           <div class="spinner"></div>

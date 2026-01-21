@@ -254,7 +254,6 @@ app.MapControllers();
 // ========================================
 // 13. RUN APPLICATION
 // ========================================
-Console.WriteLine("🚀 Fundoo Notes API is running...");
-Console.WriteLine($"📍 Swagger UI: {(app.Environment.IsDevelopment() ? "https://localhost:7014" : "Not available in production")}\n");
+Console.WriteLine("🚀 Fundoo Notes API is running...\n");
 
 app.Run();

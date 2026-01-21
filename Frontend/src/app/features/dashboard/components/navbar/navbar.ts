@@ -71,8 +71,9 @@ export class NavbarComponent implements OnInit {
     }
   }
 
-  onSearchInput(): void {
-    this.searchChange.emit(this.searchQuery());
+  onSearchInput(value: string): void {
+    this.searchQuery.set(value);
+    this.searchChange.emit(value);
   }
 
   onSearchSubmit(event: Event): void {
