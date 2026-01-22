@@ -51,3 +51,14 @@
     </main>
   </div>
 </div>
+
+<!-- Empty Trash Confirmation Dialog -->
+<div class="dialog-overlay" *ngIf="showEmptyTrashDialog()" (click)="cancelEmptyTrash()">
+  <div class="confirm-dialog" (click)="$event.stopPropagation()">
+    <h3 class="dialog-title">Empty trash? All notes in Trash will be permanently deleted.</h3>
+    <div class="dialog-actions">
+      <button class="dialog-btn cancel-btn" (click)="cancelEmptyTrash()">Cancel</button>
+      <button class="dialog-btn confirm-btn" (click)="confirmEmptyTrash()">Empty Trash</button>
+    </div>
+  </div>
+</div>

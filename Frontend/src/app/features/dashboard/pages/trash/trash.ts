@@ -22,6 +22,7 @@ export class TrashComponent implements OnInit {
   trashedNotes = signal<Note[]>([]);
   filteredNotes = signal<Note[]>([]);
   isLoading = signal(true);
+  showEmptyTrashDialog = signal(false);
 
   ngOnInit(): void {
     this.loadTrashedNotes();
@@ -95,16 +96,25 @@ export class TrashComponent implements OnInit {
 
   emptyTrash(): void {
     if (this.trashedNotes().length === 0) return;
+    this.showEmptyTrashDialog.set(true);
+  }
 
-    if (confirm('This will permanently delete all notes in trash. Are you sure?')) {
-      this.noteService.emptyTrash().subscribe({
-        next: () => {
-          this.trashedNotes.set([]);
-          this.filteredNotes.set([]);
-        },
-        error: (err) => console.error('Failed to empty trash:', err)
-      });
-    }
+  confirmEmptyTrash(): void {
+    this.noteService.emptyTrash().subscribe({
+      next: () => {
+        this.trashedNotes.set([]);
+        this.filteredNotes.set([]);
+        this.showEmptyTrashDialog.set(false);
+      },
+      error: (err) => {
+        console.error('Failed to empty trash:', err);
+        this.showEmptyTrashDialog.set(false);
+      }
+    });
+  }
+
+  cancelEmptyTrash(): void {
+    this.showEmptyTrashDialog.set(false);
   }
 
   onNoteUpdated(): void {
