@@ -16,22 +16,36 @@ $color-accent: #1a73e8;
   min-height: calc(100vh - $header-height);
   background-color: var(--bg-primary);
   transition: margin-left 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+    width 0.25s cubic-bezier(0.4, 0, 0.2, 1),
     background-color 0.2s ease;
 
-  width: 100%;
+  width: calc(100% - $sidebar-collapsed);
   margin-left: $sidebar-collapsed;
   overflow-x: hidden;
 
   &.sidebar-expanded {
     margin-left: $sidebar-expanded;
+    width: calc(100% - $sidebar-expanded);
   }
 
   @media (max-width: 1024px) {
     margin-left: $sidebar-collapsed;
+    width: calc(100% - $sidebar-collapsed);
+
+    &.sidebar-expanded {
+      margin-left: $sidebar-expanded;
+      width: calc(100% - $sidebar-expanded);
+    }
   }
 
   @media (max-width: 768px) {
     margin-left: 0;
+    width: 100%;
+
+    &.sidebar-expanded {
+      margin-left: 0;
+      width: 100%;
+    }
   }
 }
 
