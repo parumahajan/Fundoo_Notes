@@ -11,12 +11,25 @@
     <!-- Pinned Notes Section -->
     <section class="notes-section" *ngIf="!isLoading() && pinnedNotes().length > 0">
       <h2 class="section-title">PINNED</h2>
-      <div class="notes-masonry" [class.list-view]="!isGridView">
+      <div class="notes-masonry"
+           [class.list-view]="!isGridView"
+           cdkDropList
+           #pinnedList="cdkDropList"
+           [cdkDropListData]="pinnedNotes()"
+           [cdkDropListConnectedTo]="[otherList]"
+           cdkDropListOrientation="mixed"
+           (cdkDropListDropped)="drop($event)">
         <app-note-card
-          *ngFor="let note of pinnedNotes()"
+          *ngFor="let note of pinnedNotes(); trackBy: trackByNoteId"
           [note]="note"
+          cdkDrag
+          [cdkDragData]="note"
+          [cdkDragPreviewClass]="'cdk-drag-preview'"
+          (cdkDragStarted)="onDragStarted($event)"
+          (cdkDragEnded)="onDragEnded($event)"
           (noteClicked)="onNoteClick($event)"
           (noteUpdated)="onNoteUpdated()">
+          <div class="drag-placeholder" *cdkDragPlaceholder></div>
         </app-note-card>
       </div>
     </section>
@@ -24,12 +37,25 @@
     <!-- Other Notes Section -->
     <section class="notes-section" *ngIf="!isLoading() && otherNotes().length > 0">
       <h2 class="section-title" *ngIf="pinnedNotes().length > 0">OTHERS</h2>
-      <div class="notes-masonry" [class.list-view]="!isGridView">
+      <div class="notes-masonry"
+           [class.list-view]="!isGridView"
+           cdkDropList
+           #otherList="cdkDropList"
+           [cdkDropListData]="otherNotes()"
+           [cdkDropListConnectedTo]="[pinnedList]"
+           cdkDropListOrientation="mixed"
+           (cdkDropListDropped)="drop($event)">
         <app-note-card
-          *ngFor="let note of otherNotes()"
+          *ngFor="let note of otherNotes(); trackBy: trackByNoteId"
           [note]="note"
+          cdkDrag
+          [cdkDragData]="note"
+          [cdkDragPreviewClass]="'cdk-drag-preview'"
+          (cdkDragStarted)="onDragStarted($event)"
+          (cdkDragEnded)="onDragEnded($event)"
           (noteClicked)="onNoteClick($event)"
           (noteUpdated)="onNoteUpdated()">
+          <div class="drag-placeholder" *cdkDragPlaceholder></div>
         </app-note-card>
       </div>
     </section>
