@@ -124,6 +124,10 @@ $header-height: 64px;
   &:first-of-type {
     margin-top: 16px;
   }
+
+  &.hidden {
+    display: none;
+  }
 }
 
 .section-title {

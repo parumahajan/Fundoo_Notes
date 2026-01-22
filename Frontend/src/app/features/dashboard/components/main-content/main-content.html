@@ -9,7 +9,7 @@
     </div>
 
     <!-- Pinned Notes Section -->
-    <section class="notes-section" *ngIf="!isLoading() && pinnedNotes().length > 0">
+    <section class="notes-section" [class.hidden]="isLoading() || pinnedNotes().length === 0">
       <h2 class="section-title">PINNED</h2>
       <div class="notes-masonry"
            [class.list-view]="!isGridView"
@@ -35,7 +35,7 @@
     </section>
 
     <!-- Other Notes Section -->
-    <section class="notes-section" *ngIf="!isLoading() && otherNotes().length > 0">
+    <section class="notes-section" [class.hidden]="isLoading() || otherNotes().length === 0">
       <h2 class="section-title" *ngIf="pinnedNotes().length > 0">OTHERS</h2>
       <div class="notes-masonry"
            [class.list-view]="!isGridView"

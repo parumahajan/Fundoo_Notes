@@ -114,7 +114,8 @@ export class MainContentComponent implements OnInit, OnChanges {
       const notes = [...event.container.data];
       moveItemInArray(notes, event.previousIndex, event.currentIndex);
 
-      if (event.container.id === 'cdk-drop-list-0' || event.container.data === this.pinnedNotes()) {
+      // Check which list by comparing with ViewChild references
+      if (event.container === this.pinnedList) {
         this.pinnedNotes.set(notes);
       } else {
         this.otherNotes.set(notes);
@@ -127,11 +128,10 @@ export class MainContentComponent implements OnInit, OnChanges {
 
       transferArrayItem(previousList, currentList, event.previousIndex, event.currentIndex);
 
-      // Determine which list is which and toggle pin status
-      const isPinnedSource = event.previousContainer.data === this.pinnedNotes() ||
-                            previousList.some(n => n.isPinned);
+      // Determine source by comparing with ViewChild references
+      const isFromPinned = event.previousContainer === this.pinnedList;
 
-      if (isPinnedSource) {
+      if (isFromPinned) {
         // Moving from pinned to other - unpin the note
         this.pinnedNotes.set(previousList);
         this.otherNotes.set(currentList);
