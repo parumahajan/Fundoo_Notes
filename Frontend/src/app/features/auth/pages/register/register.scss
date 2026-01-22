@@ -7,8 +7,9 @@
   justify-content: center;
   align-items: center;
   font-family: 'Google Sans', 'Roboto', Arial, sans-serif;
-  background-color: #fff;
+  background-color: var(--bg-primary);
   padding: 24px;
+  transition: background-color 0.2s ease;
 
   @media (max-width: 796px) {
     padding: 16px;
@@ -22,11 +23,12 @@
   justify-content: space-between;
   align-items: center;
   font-family: 'Google Sans', 'Roboto', Arial, sans-serif;
-  background: #fff;
-  border: 1px solid #dadce0;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
   border-radius: 8px;
   padding: 48px 40px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  transition: background-color 0.2s ease, border-color 0.2s ease;
 
   @media (max-width: 796px) {
     flex-direction: column;
@@ -70,7 +72,7 @@
     font-weight: 400;
     font-size: 24px;
     margin: 0 0 8px 0;
-    color: #202124;
+    color: var(--text-primary);
     line-height: 1.3333;
   }
 }
@@ -132,7 +134,7 @@
   .first-name-wrapper,
   .last-name-wrapper {
     flex: 1;
-    @include floating-label-input(#1a73e8);
+    @include floating-label-input();
   }
 
   @media (max-width: 796px) {
@@ -144,12 +146,12 @@
 .email-input-feild {
   width: 100%;
   margin-bottom: 20px;
-  @include floating-label-input(#1a73e8);
+  @include floating-label-input();
 
   input:-webkit-autofill + label {
     top: 0.5rem;
     font-size: 0.75rem;
-    color: #1a73e8;
+    color: var(--color-accent);
   }
 }
 
@@ -161,7 +163,7 @@
 
   .password-wrapper,
   .confirm-password-wrapper {
-    @include floating-label-input(#1a73e8);
+    @include floating-label-input();
     flex: 1;
   }
 
@@ -178,7 +180,7 @@
   p {
     text-align: left;
     font-size: 12px;
-    color: #5f6368;
+    color: var(--text-secondary);
     margin: 0;
     line-height: 1.5;
     transition: color 0.2s ease;
@@ -213,18 +215,18 @@
     height: 18px;
     margin: 0 12px 0 0;
     cursor: pointer;
-    accent-color: #1a73e8;
+    accent-color: var(--color-accent);
     flex-shrink: 0;
 
     &:focus {
-      outline: 2px solid #1a73e8;
+      outline: 2px solid var(--color-accent);
       outline-offset: 2px;
     }
   }
 
   label {
     font-size: 14px;
-    color: #202124;
+    color: var(--text-primary);
     cursor: pointer;
     user-select: none;
     line-height: 1.4286;
@@ -318,12 +320,12 @@
 // OTP Styles
 .otp-subtitle {
   font-size: 14px;
-  color: #5f6368;
+  color: var(--text-secondary);
   margin: 0;
   line-height: 1.5;
 
   strong {
-    color: #202124;
+    color: var(--text-primary);
     font-weight: 500;
   }
 }
@@ -346,22 +348,23 @@
 .otp-input {
   width: 48px;
   height: 56px;
-  border: 1px solid #dadce0;
+  border: 1px solid var(--border-color);
   border-radius: 4px;
   font-size: 24px;
   text-align: center;
   font-weight: 500;
-  color: #202124;
+  color: var(--text-primary);
+  background-color: var(--bg-card);
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
   font-family: 'Google Sans', 'Roboto', Arial, sans-serif;
 
   &:hover {
-    border-color: #5f6368;
+    border-color: var(--text-secondary);
   }
 
   &:focus {
     outline: none;
-    border-color: #1a73e8;
+    border-color: var(--color-accent);
     box-shadow: 0 0 0 2px rgba(26, 115, 232, 0.2);
   }
 
@@ -386,7 +389,7 @@
 .resend-btn {
   background: none;
   border: none;
-  color: #1a73e8;
+  color: var(--color-accent);
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;
@@ -397,16 +400,16 @@
   line-height: 1.4286;
 
   &:hover:not(:disabled) {
-    background-color: rgba(26, 115, 232, 0.08);
+    background-color: var(--bg-hover);
   }
 
   &:focus {
-    outline: 2px solid #1a73e8;
+    outline: 2px solid var(--color-accent);
     outline-offset: 2px;
   }
 
   &:disabled {
-    color: #80868b;
+    color: var(--text-hint);
     cursor: not-allowed;
     background-color: transparent;
   }
@@ -417,7 +420,7 @@
   align-items: center;
   gap: 8px;
   cursor: pointer;
-  color: #1a73e8;
+  color: var(--color-accent);
   font-size: 14px;
   font-weight: 500;
   text-decoration: none;
@@ -427,7 +430,7 @@
   svg {
     width: 18px;
     height: 18px;
-    fill: #1a73e8;
+    fill: var(--color-accent);
     flex-shrink: 0;
   }
 
@@ -437,7 +440,7 @@
   }
 
   &:focus {
-    outline: 2px solid #1a73e8;
+    outline: 2px solid var(--color-accent);
     outline-offset: 2px;
     border-radius: 2px;
   }

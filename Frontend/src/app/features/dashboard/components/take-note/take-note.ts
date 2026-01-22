@@ -18,7 +18,7 @@ export class TakeNoteComponent {
   isExpanded = signal(false);
   noteTitle = '';
   noteContent = '';
-  selectedColor = signal('#ffffff');
+  selectedColor = signal('');
   isPinned = signal(false);
   showColorPicker = signal(false);
   isSaving = signal(false);
@@ -87,7 +87,7 @@ export class TakeNoteComponent {
     this.isExpanded.set(false);
     this.noteTitle = '';
     this.noteContent = '';
-    this.selectedColor.set('#ffffff');
+    this.selectedColor.set('');
     this.isPinned.set(false);
     this.showColorPicker.set(false);
     this.isSaving.set(false);

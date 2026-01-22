@@ -167,7 +167,7 @@ $z-index-overlay: 50;
   }
 
   .retry-btn {
-    background-color: #1a73e8;
+    background-color: var(--color-accent);
     color: #fff;
     border: none;
     padding: 10px 24px;
@@ -187,7 +187,7 @@ $z-index-overlay: 50;
     }
 
     &:focus-visible {
-      outline: 2px solid #1a73e8;
+      outline: 2px solid var(--color-accent);
       outline-offset: 2px;
     }
   }
@@ -285,7 +285,7 @@ $z-index-overlay: 50;
   }
 
   &:hover {
-    background-color: #f8f9fa;
+    background-color: var(--bg-hover);
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   }
@@ -296,7 +296,7 @@ $z-index-overlay: 50;
   }
 
   &:focus-visible {
-    outline: 2px solid #1a73e8;
+    outline: 2px solid var(--color-accent);
     outline-offset: 2px;
   }
 

@@ -256,7 +256,7 @@ $header-height: 64px;
     color: var(--color-accent);
 
     &:hover {
-      background: rgba(26, 115, 232, 0.08);
+      background: var(--bg-hover);
     }
   }
 
@@ -265,7 +265,7 @@ $header-height: 64px;
     color: var(--color-accent);
 
     &:hover {
-      background: rgba(26, 115, 232, 0.08);
+      background: var(--bg-hover);
     }
   }
 }

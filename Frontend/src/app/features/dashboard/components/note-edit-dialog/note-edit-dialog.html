@@ -1,6 +1,7 @@
 <div class="dialog-overlay" (click)="onOverlayClick($event)" (keydown)="onKeyDown($event)">
   <div class="note-edit-dialog"
        [style.background-color]="selectedColor()"
+       [class.has-color]="selectedColor()"
        (click)="$event.stopPropagation(); closeMenus()">
     <!-- Pin Button -->
     <button class="pin-btn"

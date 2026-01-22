@@ -5,10 +5,6 @@ $sidebar-collapsed: 80px;
 $sidebar-expanded: 280px;
 $header-height: 64px;
 
-$color-text-secondary: #5f6368;
-$color-border: #e0e0e0;
-$color-accent: #1a73e8;
-
 // ==============================
 // Main Content Area
 // ==============================
@@ -80,7 +76,7 @@ $color-accent: #1a73e8;
 
   .search-results-text {
     font-size: 14px;
-    color: $color-text-secondary;
+    color: var(--text-secondary);
     font-weight: 500;
   }
 }
@@ -99,8 +95,8 @@ $color-accent: #1a73e8;
   .spinner {
     width: 40px;
     height: 40px;
-    border: 3px solid $color-border;
-    border-top-color: $color-accent;
+    border: 3px solid var(--border-color);
+    border-top-color: var(--color-accent);
     border-radius: 50%;
     animation: spin 0.8s linear infinite;
     margin-bottom: 16px;
@@ -108,7 +104,7 @@ $color-accent: #1a73e8;
 
   p {
     font-size: 14px;
-    color: $color-text-secondary;
+    color: var(--text-secondary);
     margin: 0;
   }
 }
@@ -184,8 +180,8 @@ $color-accent: #1a73e8;
 // ==============================
 // Custom drag placeholder that matches note card size
 .drag-placeholder {
-  background: rgba(26, 115, 232, 0.08);
-  border: 2px dashed rgba(26, 115, 232, 0.4);
+  background: var(--bg-hover);
+  border: 2px dashed var(--color-accent);
   border-radius: 8px;
   min-height: 80px;
   width: 240px;
@@ -225,8 +221,8 @@ $color-accent: #1a73e8;
 
 // Default placeholder styling
 .cdk-drag-placeholder {
-  background: rgba(26, 115, 232, 0.08);
-  border: 2px dashed rgba(26, 115, 232, 0.4);
+  background: var(--bg-hover);
+  border: 2px dashed var(--color-accent);
   border-radius: 8px;
   opacity: 1;
   min-height: 80px;
@@ -251,7 +247,7 @@ $color-accent: #1a73e8;
 
 // Receiving state - visual feedback when dragging over a drop zone
 .cdk-drop-list-receiving {
-  background: rgba(26, 115, 232, 0.02);
+  background: var(--bg-hover);
   border-radius: 8px;
 }
 

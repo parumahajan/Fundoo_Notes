@@ -7,8 +7,9 @@
   justify-content: center;
   align-items: center;
   font-family: 'Google Sans', 'Roboto', Arial, sans-serif;
-  background-color: #fff;
+  background-color: var(--bg-primary);
   padding: 24px;
+  transition: background-color 0.2s ease;
 }
 
 .main-div {
@@ -24,10 +25,11 @@
   width: 100%;
   max-width: 450px;
   padding: 48px 40px 36px;
-  border: 1px solid #dadce0;
+  border: 1px solid var(--border-color);
   border-radius: 8px;
-  background-color: #ffffff;
+  background-color: var(--bg-card);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  transition: background-color 0.2s ease, border-color 0.2s ease;
 
   @media (max-width: 480px) {
     padding: 32px 24px 24px;
@@ -55,7 +57,7 @@
   h3 {
     font-size: 24px;
     font-weight: 400;
-    color: #202124;
+    color: var(--text-primary);
     margin: 0;
     line-height: 1.3333;
   }
@@ -67,7 +69,7 @@
 
   p {
     font-size: 16px;
-    color: #202124;
+    color: var(--text-primary);
     margin: 0;
     line-height: 1.5;
   }
@@ -108,12 +110,12 @@
 
 .email-input-feild {
   margin-bottom: 20px;
-  @include floating-label-input(#1a73e8);
+  @include floating-label-input();
 }
 
 .password-input-feild {
   margin-bottom: 12px;
-  @include floating-label-input(#1a73e8);
+  @include floating-label-input();
 }
 
 .show-password {
@@ -127,18 +129,18 @@
     height: 18px;
     margin: 0 12px 0 0;
     cursor: pointer;
-    accent-color: #1a73e8;
+    accent-color: var(--color-accent);
     flex-shrink: 0;
 
     &:focus {
-      outline: 2px solid #1a73e8;
+      outline: 2px solid var(--color-accent);
       outline-offset: 2px;
     }
   }
 
   label {
     font-size: 14px;
-    color: #202124;
+    color: var(--text-primary);
     cursor: pointer;
     user-select: none;
     line-height: 1.4286;
@@ -225,11 +227,11 @@
       }
 
       &:disabled {
-        background-color: #f8f9fa;
-        color: #80868b;
+        background-color: var(--bg-secondary);
+        color: var(--text-hint);
         cursor: not-allowed;
         box-shadow: none;
-        border: 1px solid #dadce0;
+        border: 1px solid var(--border-color);
       }
     }
   }

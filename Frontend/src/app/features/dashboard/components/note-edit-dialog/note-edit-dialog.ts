@@ -27,7 +27,7 @@ export class NoteEditDialogComponent implements OnInit {
 
   editTitle = '';
   editContent = '';
-  selectedColor = signal('#ffffff');
+  selectedColor = signal('');
   showColorPicker = signal(false);
   showMoreMenu = signal(false);
   showLabelPicker = signal(false);
@@ -41,7 +41,7 @@ export class NoteEditDialogComponent implements OnInit {
     if (this.note) {
       this.editTitle = this.note.title || '';
       this.editContent = this.note.content || '';
-      this.selectedColor.set(this.note.color || '#ffffff');
+      this.selectedColor.set(this.note.color || '');
     }
 
     this.labelService.labels$.subscribe(labels => {

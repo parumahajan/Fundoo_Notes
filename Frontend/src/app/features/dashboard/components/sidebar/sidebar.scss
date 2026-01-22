@@ -2,16 +2,6 @@
 $sidebar-width-collapsed: 80px;
 $sidebar-width-expanded: 280px;
 
-$color-hover: #feefc3;
-$color-active: #feefc3;
-$color-focus: #1a73e8;
-$color-overlay: rgba(0, 0, 0, 0.6);
-$color-text: #202124;
-$color-text-secondary: #5f6368;
-$color-border: #e0e0e0;
-$color-bg: #fff;
-$color-button-hover: rgba(0, 0, 0, 0.08);
-
 $spacing-xs: 4px;
 $spacing-sm: 8px;
 $spacing-md: 12px;
@@ -35,8 +25,8 @@ $z-index-overlay: 1000;
 .sidebar {
   width: $sidebar-width-collapsed;
   height: calc(100vh - $header-height);
-  background-color: $color-bg;
-  border-right: 1px solid $color-border;
+  background-color: var(--bg-primary);
+  border-right: 1px solid var(--border-color);
   position: fixed;
   top: $header-height;
   left: 0;
@@ -82,22 +72,22 @@ $z-index-overlay: 1000;
   margin: 0 $spacing-sm $spacing-xs;
   padding: 0;
   border-radius: $border-radius;
-  color: $color-text;
+  color: var(--text-primary);
   cursor: pointer;
   transition: background-color $transition-fast;
   justify-content: center;
   text-decoration: none;
 
   &:hover {
-    background-color: $color-hover;
+    background-color: var(--color-yellow-bg);
   }
 
   &:active {
-    background-color: rgba(0, 0, 0, 0.08);
+    background-color: var(--bg-active);
   }
 
   &.active {
-    background-color: $color-active;
+    background-color: var(--color-yellow-bg);
   }
 
   /* Expanded sidebar */
@@ -120,7 +110,7 @@ $z-index-overlay: 1000;
   svg {
     width: 24px;
     height: 24px;
-    fill: $color-text;
+    fill: var(--text-primary);
   }
 
   .sidebar.expanded & {
@@ -135,7 +125,7 @@ $z-index-overlay: 1000;
 // ================= TEXT =================
 .nav-text {
   font-size: 14px;
-  color: $color-text;
+  color: var(--text-primary);
   white-space: nowrap;
   overflow: hidden;
   max-width: 0;
@@ -161,25 +151,25 @@ $z-index-overlay: 1000;
 // ================= DIVIDER =================
 .nav-divider {
   height: 1px;
-  background-color: $color-border;
+  background-color: var(--border-color);
   margin: $spacing-sm $spacing-md;
 }
 
 // ================= FOOTER =================
 .sidebar-footer {
   padding: $spacing-lg;
-  border-top: 1px solid $color-border;
+  border-top: 1px solid var(--border-color);
 }
 
 .footer-link {
   font-size: 12px;
-  color: $color-text-secondary;
+  color: var(--text-secondary);
   display: none;
   text-decoration: none;
 
   &:hover {
     text-decoration: underline;
-    color: $color-text;
+    color: var(--text-primary);
   }
 }
 
@@ -187,7 +177,7 @@ $z-index-overlay: 1000;
 .dialog-overlay {
   position: fixed;
   inset: 0;
-  background: $color-overlay;
+  background: rgba(0, 0, 0, 0.6);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -201,7 +191,7 @@ $z-index-overlay: 1000;
 }
 
 .edit-labels-dialog {
-  background: $color-bg;
+  background: var(--bg-primary);
   width: 100%;
   max-width: 360px;
   max-height: 80vh;
@@ -226,13 +216,13 @@ $z-index-overlay: 1000;
 
 .dialog-header {
   padding: $spacing-lg;
-  border-bottom: 1px solid $color-border;
+  border-bottom: 1px solid var(--border-color);
 
   h2 {
     margin: 0;
     font-size: 16px;
     font-weight: 500;
-    color: $color-text;
+    color: var(--text-primary);
     line-height: 1.5;
   }
 }
@@ -245,7 +235,7 @@ $z-index-overlay: 1000;
 
 .dialog-footer {
   padding: $spacing-md $spacing-lg;
-  border-top: 1px solid $color-border;
+  border-top: 1px solid var(--border-color);
   display: flex;
   justify-content: flex-end;
 }
@@ -256,22 +246,22 @@ $z-index-overlay: 1000;
   padding: $spacing-sm $spacing-lg;
   font-size: 14px;
   font-weight: 500;
-  color: $color-text;
+  color: var(--text-primary);
   cursor: pointer;
   border-radius: 4px;
   transition: background-color $transition-fast;
   font-family: 'Roboto', Arial, sans-serif;
 
   &:hover {
-    background-color: rgba(0, 0, 0, 0.04);
+    background-color: var(--bg-hover);
   }
 
   &:active {
-    background-color: rgba(0, 0, 0, 0.08);
+    background-color: var(--bg-active);
   }
 
   &:focus-visible {
-    outline: 2px solid $color-focus;
+    outline: 2px solid var(--color-accent);
     outline-offset: 2px;
   }
 }
@@ -288,20 +278,20 @@ $z-index-overlay: 1000;
 .label-input {
   flex: 1;
   border: none;
-  border-bottom: 1px solid $color-border;
+  border-bottom: 1px solid var(--border-color);
   padding: $spacing-sm 0;
   font-size: 14px;
-  color: $color-text;
+  color: var(--text-primary);
   outline: none;
   font-family: 'Roboto', Arial, sans-serif;
   background: transparent;
 
   &::placeholder {
-    color: $color-text-secondary;
+    color: var(--text-secondary);
   }
 
   &:focus {
-    border-bottom-color: $color-focus;
+    border-bottom-color: var(--color-accent);
   }
 }
 
@@ -319,15 +309,15 @@ $z-index-overlay: 1000;
   svg {
     width: 18px;
     height: 18px;
-    fill: $color-text-secondary;
+    fill: var(--text-secondary);
   }
 
   &:hover {
-    background-color: rgba(0, 0, 0, 0.04);
+    background-color: var(--bg-hover);
   }
 
   &:active {
-    background-color: rgba(0, 0, 0, 0.08);
+    background-color: var(--bg-active);
   }
 
   &:disabled {
@@ -350,7 +340,7 @@ $z-index-overlay: 1000;
   transition: background-color $transition-fast;
 
   &:hover {
-    background-color: rgba(0, 0, 0, 0.02);
+    background-color: var(--bg-hover);
   }
 }
 
@@ -368,7 +358,7 @@ $z-index-overlay: 1000;
   }
 
   svg {
-    fill: $color-text-secondary;
+    fill: var(--text-secondary);
   }
 
   &:hover svg {
@@ -385,14 +375,14 @@ $z-index-overlay: 1000;
   svg {
     width: 20px;
     height: 20px;
-    fill: $color-text-secondary;
+    fill: var(--text-secondary);
   }
 }
 
 .label-name {
   flex: 1;
   font-size: 14px;
-  color: $color-text;
+  color: var(--text-primary);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -401,10 +391,10 @@ $z-index-overlay: 1000;
 .label-edit-input {
   flex: 1;
   border: none;
-  border-bottom: 1px solid $color-focus;
+  border-bottom: 1px solid var(--color-accent);
   padding: 4px 0;
   font-size: 14px;
-  color: $color-text;
+  color: var(--text-primary);
   outline: none;
   font-family: 'Roboto', Arial, sans-serif;
   background: transparent;
@@ -420,7 +410,7 @@ $z-index-overlay: 1000;
 
 .check-btn {
   svg {
-    fill: $color-text;
+    fill: var(--text-primary);
   }
 }
 
@@ -440,7 +430,7 @@ $z-index-overlay: 1000;
 }
 
 .delete-confirm-dialog {
-  background: $color-bg;
+  background: var(--bg-primary);
   border-radius: 8px;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
   max-width: 360px;
@@ -456,7 +446,7 @@ $z-index-overlay: 1000;
 .delete-confirm-message {
   font-size: 14px;
   line-height: 20px;
-  color: $color-text;
+  color: var(--text-primary);
   margin: 0;
   font-family: 'Roboto', Arial, sans-serif;
 }
@@ -484,27 +474,27 @@ $z-index-overlay: 1000;
 
 .cancel-delete-btn {
   background: transparent;
-  color: $color-focus;
+  color: var(--color-accent);
 
   &:hover {
-    background-color: rgba(26, 115, 232, 0.08);
+    background-color: var(--bg-hover);
   }
 
   &:active {
-    background-color: rgba(26, 115, 232, 0.16);
+    background-color: var(--bg-active);
   }
 }
 
 .confirm-delete-btn {
   background: transparent;
-  color: $color-focus;
+  color: var(--color-accent);
 
   &:hover {
-    background-color: rgba(26, 115, 232, 0.08);
+    background-color: var(--bg-hover);
   }
 
   &:active {
-    background-color: rgba(26, 115, 232, 0.16);
+    background-color: var(--bg-active);
   }
 }
 

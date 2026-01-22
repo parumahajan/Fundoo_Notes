@@ -1,5 +1,6 @@
 <div class="note-card"
      [style.background-color]="note.color"
+     [class.has-color]="note.color"
      [class.menu-open]="showColorPicker() || showMoreMenu() || showLabelPicker()"
   (click)="onCardClick()">
 

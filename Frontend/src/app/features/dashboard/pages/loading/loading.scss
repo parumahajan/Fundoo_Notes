@@ -4,14 +4,16 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  background-color: var(--bg-primary);
+  transition: background-color 0.2s ease;
 }
 /* HTML: <div class="loader"></div> */
 .loader {
   width: 50px;
   aspect-ratio: 1;
   border-radius: 50%;
-  border: 8px solid lightblue;
-  border-right-color: orange;
+  border: 8px solid var(--border-color);
+  border-right-color: var(--color-accent);
   animation: l2 1s infinite linear;
 }
 @keyframes l2 {to{transform: rotate(1turn)}}
