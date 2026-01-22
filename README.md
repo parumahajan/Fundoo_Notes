@@ -153,13 +153,3 @@ http://localhost:4200
 * Collaborator APIs
 * Reminder APIs
 * Archive & Trash APIs
-
----
-
-## 🎯 Future Enhancements
-
-* Real-time notifications
-* Drag and drop notes
-* Dark mode
-* Advanced search filters
-* Mobile application
