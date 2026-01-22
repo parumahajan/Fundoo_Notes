@@ -73,20 +73,24 @@ namespace BusinessLayer.Services
                     throw new UnauthorizedException("You don't have permission to edit this note");
             }
 
-            // Update fields
-            if (!string.IsNullOrWhiteSpace(dto.Title))
+            // Validate the update
+            NoteRules.ValidateUpdate(dto);
+
+            // Update title if provided
+            if (dto.Title != null)
             {
-                if (dto.Title.Length > 200)
-                    throw new ValidationException("Title cannot exceed 200 characters");
-                note.Title = dto.Title;
+                note.Title = string.IsNullOrWhiteSpace(dto.Title) ? string.Empty : dto.Title.Trim();
             }
 
+            // Update content if provided
             if (dto.Content != null)
             {
-                if (dto.Content.Length > 10000)
-                    throw new ValidationException("Content cannot exceed 10000 characters");
                 note.Content = dto.Content;
             }
+
+            // Ensure at least one field has content after update
+            if (string.IsNullOrWhiteSpace(note.Title) && string.IsNullOrWhiteSpace(note.Content))
+                throw new ValidationException("Either title or content must have a value");
 
             note.UpdatedAt = DateTime.UtcNow;
 

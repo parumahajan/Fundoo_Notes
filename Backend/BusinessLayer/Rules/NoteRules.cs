@@ -69,14 +69,18 @@ namespace BusinessLayer.Rules
 
         public static void ValidateUpdate(UpdateNoteDto dto)
         {
+            // Check if both title and content are being cleared
+            bool titleIsEmpty = dto.Title != null && string.IsNullOrWhiteSpace(dto.Title);
+            bool contentIsEmpty = dto.Content != null && string.IsNullOrWhiteSpace(dto.Content);
+            
+            if (titleIsEmpty && contentIsEmpty)
+                throw new ValidationException("Either title or content must have a value");
+
             // Validate title if provided
             if (dto.Title != null)
             {
                 if (dto.Title.Length > 200)
                     throw new ValidationException("Title cannot exceed 200 characters");
-
-                if (dto.Title.Trim().Length == 0)
-                    throw new ValidationException("Title cannot be only whitespace");
             }
 
             // Validate content if provided

@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, signal, inject, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, signal, inject, OnInit, HostListener, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NoteService } from '../../../../core/services/note.service';
@@ -12,11 +12,15 @@ import { NOTE_COLORS } from '../note-card/note-card';
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './note-edit-dialog.html',
-  styleUrls: ['./note-edit-dialog.scss']
+  styleUrls: ['./note-edit-dialog.scss'],
+  host: {
+    '(keydown)': 'onKeyDown($event)'
+  }
 })
 export class NoteEditDialogComponent implements OnInit {
   private noteService = inject(NoteService);
   private labelService = inject(LabelService);
+  private elementRef = inject(ElementRef);
 
   @Input() note!: Note;
   @Output() close = new EventEmitter<void>();
@@ -51,10 +55,20 @@ export class NoteEditDialogComponent implements OnInit {
 
     this.isSaving.set(true);
 
-    // Update note
+    const title = this.editTitle.trim();
+    const content = this.editContent.trim();
+
+    // Ensure at least one field has content
+    if (!title && !content) {
+      // If both are empty, keep the original values
+      this.close.emit();
+      return;
+    }
+
+    // Update note - send actual values (including empty strings to clear content)
     this.noteService.updateNote(this.note.id, {
-      title: this.editTitle.trim() || undefined,
-      content: this.editContent.trim() || undefined
+      title: title,
+      content: content
     }).subscribe({
       next: () => {
         // If color changed, update it
@@ -243,6 +257,26 @@ export class NoteEditDialogComponent implements OnInit {
   onOverlayClick(event: Event): void {
     if ((event.target as HTMLElement).classList.contains('dialog-overlay')) {
       this.saveAndClose();
+    }
+  }
+
+  onKeyDown(event: KeyboardEvent): void {
+    // Prevent dialog from closing when pressing backspace/delete outside input fields
+    const target = event.target as HTMLElement;
+    const tagName = target.tagName.toLowerCase();
+    const isInputField = tagName === 'input' || tagName === 'textarea';
+
+    // If Escape is pressed, close the dialog
+    if (event.key === 'Escape') {
+      event.preventDefault();
+      this.saveAndClose();
+      return;
+    }
+
+    // Prevent default browser behavior for backspace when not in an input field
+    // This prevents the browser from navigating back
+    if ((event.key === 'Backspace' || event.key === 'Delete') && !isInputField) {
+      event.preventDefault();
     }
   }
 }
