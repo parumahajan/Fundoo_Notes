@@ -125,6 +125,7 @@ $z-index-overlay: 1000;
 // ================= TEXT =================
 .nav-text {
   font-size: 14px;
+  font-weight: 500;
   color: var(--text-primary);
   white-space: nowrap;
   overflow: hidden;
@@ -150,15 +151,12 @@ $z-index-overlay: 1000;
 
 // ================= DIVIDER =================
 .nav-divider {
-  height: 1px;
-  background-color: var(--border-color);
-  margin: $spacing-sm $spacing-md;
+  display: none;
 }
 
 // ================= FOOTER =================
 .sidebar-footer {
   padding: $spacing-lg;
-  border-top: 1px solid var(--border-color);
 }
 
 .footer-link {
@@ -166,6 +164,7 @@ $z-index-overlay: 1000;
   color: var(--text-secondary);
   display: none;
   text-decoration: none;
+  padding-left: 0.5rem;
 
   &:hover {
     text-decoration: underline;
