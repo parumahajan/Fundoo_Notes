@@ -32,15 +32,18 @@ export class LabelNotesComponent implements OnInit {
 
   filteredNotes = computed(() => {
     const query = this.searchQuery().toLowerCase().trim();
-    const notes = this.labelNotes();
+    let notes = this.labelNotes();
 
-    if (!query) return notes;
+    if (query) {
+      notes = notes.filter(note =>
+        note.title?.toLowerCase().includes(query) ||
+        note.content?.toLowerCase().includes(query) ||
+        note.labels?.some(l => l.name.toLowerCase().includes(query))
+      );
+    }
 
-    return notes.filter(note =>
-      note.title?.toLowerCase().includes(query) ||
-      note.content?.toLowerCase().includes(query) ||
-      note.labels?.some(l => l.name.toLowerCase().includes(query))
-    );
+    // Sort by displayOrder
+    return notes.sort((a, b) => a.displayOrder - b.displayOrder);
   });
 
   ngOnInit(): void {

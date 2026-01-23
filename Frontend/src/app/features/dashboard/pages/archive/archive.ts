@@ -67,6 +67,8 @@ export class ArchiveComponent implements OnInit {
       );
     }
 
+    // Sort by displayOrder
+    notes = notes.sort((a, b) => a.displayOrder - b.displayOrder);
     this.filteredNotes.set(notes);
   }
 
