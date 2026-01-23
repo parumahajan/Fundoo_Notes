@@ -58,7 +58,7 @@ It supports all core functionalities of Google Keep, including authentication, l
 
 ## 🛠️ Technologies Used
 
-### 🔹 Frontend (Angular SPA)
+###  Frontend 
 - **Angular** – Single Page Application (SPA) framework  
 - **TypeScript** – Strongly typed JavaScript for scalable development  
 - **SCSS** – Modular and maintainable styling  
@@ -72,7 +72,7 @@ It supports all core functionalities of Google Keep, including authentication, l
 - **Vite** – Fast build and development tooling  
 - **@omnedia/ngx-fuzzy-text** – Fuzzy search functionality for notes  
 
-### 🔹 Backend (ASP.NET Core)
+###  Backend 
 - **C# & ASP.NET Core Web API** – RESTful backend services  
 - **Entity Framework Core (EF Core)** – ORM for database operations  
 - **Code-First Migrations** – Database schema versioning and management  
