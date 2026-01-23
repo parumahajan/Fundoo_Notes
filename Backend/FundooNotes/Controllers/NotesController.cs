@@ -261,6 +261,19 @@ namespace FundooNotes.Controllers
             return Ok(ApiResponse.SuccessResponse("Label removed from note successfully"));
         }
 
+
+        /// Reorder notes
+        [HttpPatch("reorder")]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status200OK)]
+        public async Task<IActionResult> ReorderNotes([FromBody] ReorderNotesDto dto)
+        {
+            var userId = GetUserId();
+            _logger.LogInformation("Reordering notes for user {UserId}", userId);
+
+            await _noteService.ReorderNotesAsync(dto, userId);
+            return Ok(ApiResponse.SuccessResponse("Notes reordered successfully"));
+        }
+
         private int GetUserId()
         {
             var userIdClaim = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
