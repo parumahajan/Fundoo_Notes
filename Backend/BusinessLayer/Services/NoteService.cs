@@ -313,6 +313,7 @@ namespace BusinessLayer.Services
                 IsPinned = note.IsPinned,
                 IsArchived = note.IsArchived,
                 IsDeleted = note.IsDeleted,
+                DisplayOrder = note.DisplayOrder,
                 CreatedAt = note.CreatedAt,
                 UpdatedAt = note.UpdatedAt,
                 Labels = note.NoteLabels?.Select(nl => new ModelLayer.DTOs.Notes.LabelDto
@@ -321,6 +322,30 @@ namespace BusinessLayer.Services
                     Name = nl.Label.Name
                 }).ToList()
             };
+        }
+
+        public async Task ReorderNotesAsync(ReorderNotesDto dto, int userId)
+        {
+            if (dto.NoteOrders == null || !dto.NoteOrders.Any())
+                return;
+
+            var noteIds = dto.NoteOrders.Select(no => no.NoteId).ToList();
+            var notes = await _noteRepository.GetByIdsAsync(noteIds);
+
+            foreach (var note in notes)
+            {
+                // Only update notes that belong to the user
+                if (note.UserId != userId)
+                    continue;
+
+                var orderItem = dto.NoteOrders.FirstOrDefault(no => no.NoteId == note.Id);
+                if (orderItem != null)
+                {
+                    note.DisplayOrder = orderItem.DisplayOrder;
+                }
+            }
+
+            await _noteRepository.SaveAsync();
         }
     }
 }

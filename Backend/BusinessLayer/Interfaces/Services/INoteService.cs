@@ -21,5 +21,6 @@ namespace BusinessLayer.Interfaces.Services
         Task EmptyTrashAsync(int userId);
         Task<NoteResponseDto> AddLabelToNoteAsync(int noteId, int labelId, int userId);
         Task RemoveLabelFromNoteAsync(int noteId, int labelId, int userId);
+        Task ReorderNotesAsync(ReorderNotesDto dto, int userId);
     }
 }
