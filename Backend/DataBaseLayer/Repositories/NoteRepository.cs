@@ -31,6 +31,7 @@ namespace DataBaseLayer.Repositories
                     .ThenInclude(nl => nl.Label)
                 .Where(n => n.UserId == userId && !n.IsDeleted)
                 .OrderByDescending(n => n.IsPinned)
+                .ThenBy(n => n.DisplayOrder)
                 .ThenByDescending(n => n.CreatedAt)
                 .ToListAsync();
         }
@@ -85,6 +86,7 @@ namespace DataBaseLayer.Repositories
                     !n.IsDeleted &&
                     n.NoteLabels.Any(nl => nl.LabelId == labelId))
                 .OrderByDescending(n => n.IsPinned)
+                .ThenBy(n => n.DisplayOrder)
                 .ThenByDescending(n => n.CreatedAt)
                 .ToListAsync();
         }
