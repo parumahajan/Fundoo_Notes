@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject, tap, map, catchError, throwError } from 'rxjs';
-import { Note, CreateNoteDto, UpdateNoteDto, UpdateNoteColorDto, ApiResponse } from '../models';
+import { Note, CreateNoteDto, UpdateNoteDto, UpdateNoteColorDto, ReorderNotesDto, ApiResponse } from '../models';
 import { environment } from '../../../environments/environment';
 
 @Injectable({
@@ -267,6 +267,15 @@ export class NoteService {
   // Refresh notes from backend
   refreshNotes(): void {
     this.getAllNotes().subscribe();
+  }
+
+  // Reorder notes
+  reorderNotes(dto: ReorderNotesDto): Observable<void> {
+    return this.http.patch<ApiResponse<void>>(`${this.apiUrl}/reorder`, dto)
+      .pipe(
+        map(() => void 0),
+        catchError(this.handleError)
+      );
   }
 
   private handleError(error: any) {

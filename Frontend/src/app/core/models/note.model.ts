@@ -6,6 +6,7 @@ export interface Note {
   isPinned: boolean;
   isArchived: boolean;
   isDeleted?: boolean;
+  displayOrder: number;
   createdAt: Date;
   updatedAt?: Date;
   labels?: LabelDto[];
@@ -37,4 +38,13 @@ export interface SearchNotesDto {
 
 export interface BulkDeleteDto {
   noteIds: number[];
+}
+
+export interface ReorderNotesDto {
+  noteOrders: NoteOrderItem[];
+}
+
+export interface NoteOrderItem {
+  noteId: number;
+  displayOrder: number;
 }
