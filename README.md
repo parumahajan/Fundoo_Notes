@@ -56,18 +56,29 @@ It supports all core functionalities of Google Keep, including authentication, l
 
 ## 🛠️ Tech Stack
 
-### Frontend
+## 🛠️ Technologies Used
 
-* Angular
-* TypeScript
-* HTML5
-* CSS3
+### 🔹 Frontend (Angular SPA)
+- **Angular** – Single Page Application (SPA) framework  
+- **TypeScript** – Strongly typed JavaScript for scalable development  
+- **SCSS** – Modular and maintainable styling  
+- **Angular Router** – Client-side routing and navigation  
+- **Angular Forms** – Reactive and template-driven form handling  
+- **Angular HttpClient** – REST API communication  
+- **HTTP Interceptor Pattern** – Centralized authentication and request handling  
+- **RxJS** – Reactive programming for asynchronous data streams  
+- **Angular CDK Drag & Drop** – Interactive note reordering  
+- **Angular SSR** – Server-Side Rendering for improved performance and SEO  
+- **Vite** – Fast build and development tooling  
+- **@omnedia/ngx-fuzzy-text** – Fuzzy search functionality for notes  
 
-### Backend
-
-* .NET (ASP.NET Core)
-* Entity Framework Core
-* RESTful APIs
+### 🔹 Backend (ASP.NET Core)
+- **C# & ASP.NET Core Web API** – RESTful backend services  
+- **Entity Framework Core (EF Core)** – ORM for database operations  
+- **Code-First Migrations** – Database schema versioning and management  
+- **Middleware Architecture** – Centralized request processing and authentication  
+- **NuGet** – Dependency and package management  
+- **.NET Testing Project** – Backend testing setup for API validation  
 
 ### Database
 
