@@ -5,7 +5,7 @@ import { TakeNoteComponent } from '../take-note/take-note';
 import { NoteCardComponent } from '../note-card/note-card';
 import { NoteEditDialogComponent } from '../note-edit-dialog/note-edit-dialog';
 import { NoteService } from '../../../../core/services/note.service';
-import { Note } from '../../../../core/models/note.model';
+import { Note, NoteOrderItem } from '../../../../core/models/note.model';
 
 @Component({
   selector: 'app-main-content',
@@ -68,9 +68,9 @@ export class MainContentComponent implements OnInit, OnChanges {
       );
     }
 
-    // Separate pinned and others
-    const pinned = notes.filter(n => n.isPinned);
-    const others = notes.filter(n => !n.isPinned);
+    // Separate pinned and others, sort by displayOrder
+    const pinned = notes.filter(n => n.isPinned).sort((a, b) => a.displayOrder - b.displayOrder);
+    const others = notes.filter(n => !n.isPinned).sort((a, b) => a.displayOrder - b.displayOrder);
     this.pinnedNotes.set(pinned);
     this.otherNotes.set(others);
   }
@@ -117,8 +117,10 @@ export class MainContentComponent implements OnInit, OnChanges {
       // Check which list by comparing with ViewChild references
       if (event.container === this.pinnedList) {
         this.pinnedNotes.set(notes);
+        this.saveNoteOrder(notes);
       } else {
         this.otherNotes.set(notes);
+        this.saveNoteOrder(notes);
       }
     } else {
       // Moving between lists (pinned <-> other)
@@ -135,13 +137,29 @@ export class MainContentComponent implements OnInit, OnChanges {
         // Moving from pinned to other - unpin the note
         this.pinnedNotes.set(previousList);
         this.otherNotes.set(currentList);
-        this.noteService.togglePin(movedNote.id).subscribe();
+        this.noteService.togglePin(movedNote.id).subscribe(() => {
+          // Save order for both lists after pin toggle
+          this.saveNoteOrder([...previousList, ...currentList]);
+        });
       } else {
         // Moving from other to pinned - pin the note
         this.otherNotes.set(previousList);
         this.pinnedNotes.set(currentList);
-        this.noteService.togglePin(movedNote.id).subscribe();
+        this.noteService.togglePin(movedNote.id).subscribe(() => {
+          // Save order for both lists after pin toggle
+          this.saveNoteOrder([...currentList, ...previousList]);
+        });
       }
     }
+  }
+
+  // Save note order to backend
+  private saveNoteOrder(notes: Note[]): void {
+    const noteOrders: NoteOrderItem[] = notes.map((note, index) => ({
+      noteId: note.id,
+      displayOrder: index
+    }));
+
+    this.noteService.reorderNotes({ noteOrders }).subscribe();
   }
 }
